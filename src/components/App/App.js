@@ -32,7 +32,7 @@ export class App extends Component {
     return (
       <main className="App">
         <header>
-          <h1>URL Shortener</h1>
+          <h1 className='page-title'>URL Shortener</h1>
           <UrlForm addNewUrl={this.addNewUrl}/>
         </header>
 
