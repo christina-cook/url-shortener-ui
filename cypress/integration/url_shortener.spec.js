@@ -11,15 +11,22 @@ describe('Url Shortener', () => {
         body: testUrls
       })
     })
+    cy.visit('http://localhost:3000')
   })
 
-  it.only('Should view the page title when visiting the page', () => {
-    cy.visit('http://localhost:3000')
-      .get('.page-title').should('have.text', 'URL Shortener')
+  it('Should view the page title when visiting the page', () => {
+    cy.get('.page-title').should('have.text', 'URL Shortener')
   })
 
   it('Should view the existing shortened urls when visiting the page', () => {
-
+    cy.get('.url').eq(0).should('be.visible')
+      .get('.url-title').eq(0).should('have.text', 'Awesome photo')
+      .get('a').eq(0).should('contain', '/useshorturl/1')
+      .get('.long-url').eq(0).should('contain', 'https://images.unsplash.com/')
+      .get('.url').eq(1).should('be.visible')
+      .get('.url-title').eq(1).should('have.text', 'new url')
+      .get('a').eq(1).should('contain', '/useshorturl/2')
+      .get('.long-url').eq(1).should('contain', 'https://github.com/')
   })
 
   it('Should view a form when visiting the page', () => {
