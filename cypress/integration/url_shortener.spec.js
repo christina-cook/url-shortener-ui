@@ -36,8 +36,9 @@ describe('Url Shortener', () => {
       .get('.form-submit').should('be.visible')
   })
 
-  it('Should see information reflected in the form after entering text', () => {
-
+  it.only('Should see information reflected in the form after entering text', () => {
+    cy.get('.title-input').type('Cute Doggo').should('have.value', 'Cute Doggo')
+      .get('.url-input').type('https://unsplash.com/photos/Sg3XwuEpybU').should('have.value', 'https://unsplash.com/photos/Sg3XwuEpybU')
   })
 
   it('Should see a new shortened url on the page after submitting the form', () => {
