@@ -30,7 +30,10 @@ describe('Url Shortener', () => {
   })
 
   it('Should view a form when visiting the page', () => {
-
+    cy.get('.url-form').should('be.visible')
+      .get('.title-input').should('be.visible')
+      .get('.url-input').should('be.visible')
+      .get('.form-submit').should('be.visible')
   })
 
   it('Should see information reflected in the form after entering text', () => {
