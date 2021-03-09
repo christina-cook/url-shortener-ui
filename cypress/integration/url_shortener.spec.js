@@ -36,12 +36,30 @@ describe('Url Shortener', () => {
       .get('.form-submit').should('be.visible')
   })
 
-  it.only('Should see information reflected in the form after entering text', () => {
+  it('Should see information reflected in the form after entering text', () => {
     cy.get('.title-input').type('Cute Doggo').should('have.value', 'Cute Doggo')
       .get('.url-input').type('https://unsplash.com/photos/Sg3XwuEpybU').should('have.value', 'https://unsplash.com/photos/Sg3XwuEpybU')
   })
 
   it('Should see a new shortened url on the page after submitting the form', () => {
-
+    cy.intercept({
+      method: 'POST',
+      url: 'http://localhost:3001/api/v1/urls'
+    }, {
+      statusCode: 200,
+      body: {
+        id: 3,
+        long_url: 'https://unsplash.com/photos/Sg3XwuEpybU',
+        short_url: 'http://localhost:3001/useshorturl/3',
+        title: 'Cute Doggo'
+      }
+    })
+    cy.get('.title-input').type('Cute Doggo').should('have.value', 'Cute Doggo')
+      .get('.url-input').type('https://unsplash.com/photos/Sg3XwuEpybU').should('have.value', 'https://unsplash.com/photos/Sg3XwuEpybU')
+      .get('.form-submit').click()
+      .get('.url').eq(2).should('be.visible')
+      .get('.url-title').eq(2).should('have.text', 'Cute Doggo')
+      .get('a').eq(2).should('contain', '/useshorturl/3')
+      .get('.long-url').eq(2).should('contain', 'https://unsplash.com/photos/Sg3XwuEpybU')
   })
 })
